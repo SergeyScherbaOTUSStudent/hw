@@ -1,4 +1,4 @@
-module github.com/SergeyScherbaOTUSStudent/hw/tree/master/hw01_hello_otus
+module github.com/SergeyScherbaOTUSStudent/hw/hw01_hello_otus
 
 go 1.19
 
