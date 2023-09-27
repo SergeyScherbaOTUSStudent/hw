@@ -51,32 +51,80 @@ func TestTop10(t *testing.T) {
 	t.Run("positive test", func(t *testing.T) {
 		if taskWithAsteriskIsCompleted {
 			expected := []string{
-				"а",         // 8
-				"он",        // 8
-				"и",         // 6
-				"ты",        // 5
-				"что",       // 5
-				"в",         // 4
-				"его",       // 4
-				"если",      // 4
-				"кристофер", // 4
-				"не",        // 4
+				"а",
+				"он",
+				"и",
+				"ты",
+				"что",
+				"в",
+				"его",
+				"если",
+				"кристофер",
+				"не",
 			}
 			require.Equal(t, expected, Top10(text))
 		} else {
 			expected := []string{
-				"он",        // 8
-				"а",         // 6
-				"и",         // 6
-				"ты",        // 5
-				"что",       // 5
-				"-",         // 4
-				"Кристофер", // 4
-				"если",      // 4
-				"не",        // 4
-				"то",        // 4
+				"он",
+				"а",
+				"и",
+				"ты",
+				"что",
+				"-",
+				"Кристофер",
+				"если",
+				"не",
+				"то",
 			}
 			require.Equal(t, expected, Top10(text))
 		}
+	})
+
+	t.Run("same count", func(t *testing.T) {
+		ot := "fooA fooA fooA fooA fooA fooA fooA fooA fooA fooA fooA fooA fooA fooA fooA " +
+			"fooB fooB fooB fooB fooB fooB fooB fooB fooB fooB fooB fooB fooB fooB fooB " +
+			"fooC fooC fooC fooC fooC fooC fooC fooC fooC fooC fooC fooC fooC fooC fooC " +
+			"fooD fooD fooD fooD fooD fooD fooD fooD fooD fooD fooD fooD fooD fooD fooD " +
+			"fooE fooE fooE fooE fooE fooE fooE fooE fooE fooE fooE fooE fooE fooE fooE " +
+			"fooF fooF fooF fooF fooF fooF fooF fooF fooF fooF fooF fooF fooF fooF fooF " +
+			"fooG fooG fooG fooG fooG fooG fooG fooG fooG fooG fooG fooG fooG fooG fooG " +
+			"fooH fooH fooH fooH fooH fooH fooH fooH fooH fooH fooH fooH fooH fooH fooH " +
+			"fooI fooI fooI fooI fooI fooI fooI fooI fooI fooI fooI fooI fooI fooI fooI " +
+			"fooJ fooJ fooJ fooJ fooJ fooJ fooJ fooJ fooJ fooJ fooJ fooJ fooJ fooJ fooJ " +
+			"fooK fooK fooK fooK fooK fooK fooK fooK fooK fooK fooK fooK fooK fooK fooK " +
+			"fooL fooL fooL fooL fooL fooL fooL fooL fooL fooL fooL fooL fooL fooL fooL " +
+			"fooM fooM fooM fooM fooM fooM fooM fooM fooM fooM fooM fooM fooM fooM fooM" +
+			" bar bar bar "
+
+		expected := []string{
+			"fooA",
+			"fooB",
+			"fooC",
+			"fooD",
+			"fooE",
+			"fooF",
+			"fooG",
+			"fooH",
+			"fooI",
+			"fooJ",
+		}
+		require.Equal(t, expected, Top10(ot))
+	})
+
+	t.Run("less than ten", func(t *testing.T) {
+		ot := "fooA fooA fooA fooA fooA fooA fooA fooA fooA fooA fooA fooA fooA fooA fooA " +
+			"fooB fooB fooB fooB fooB fooB fooB fooB fooB fooB fooB fooB fooB fooB fooB " +
+			"fooC fooC fooC fooC fooC fooC fooC fooC fooC fooC fooC fooC fooC fooC fooC " +
+			"fooD fooD fooD fooD fooD fooD fooD fooD fooD fooD fooD fooD fooD fooD fooD " +
+			" bar bar bar "
+
+		expected := []string{
+			"fooA",
+			"fooB",
+			"fooC",
+			"fooD",
+			"bar",
+		}
+		require.Equal(t, expected, Top10(ot))
 	})
 }
