@@ -21,7 +21,11 @@ func Top10(text string) (result []string) {
 		counter[val]++
 	}
 
-	var words []word
+	if len(counter) < top {
+		top = len(counter)
+	}
+
+	words := make([]word, top)
 
 	for val, count := range counter {
 		words = append(words, word{val, count})
@@ -34,10 +38,6 @@ func Top10(text string) (result []string) {
 
 		return words[i].value < words[j].value
 	})
-
-	if len(words) < top {
-		top = len(words)
-	}
 
 	for i := 0; i < top; i++ {
 		result = append(result, words[i].value)
