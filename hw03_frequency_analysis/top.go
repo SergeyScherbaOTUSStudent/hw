@@ -21,26 +21,26 @@ func Top10(text string) (result []string) {
 		counter[val]++
 	}
 
-	var wordsMap []word
+	var words []word
 
 	for val, count := range counter {
-		wordsMap = append(wordsMap, word{val, count})
+		words = append(words, word{val, count})
 	}
 
-	sort.Slice(wordsMap, func(i, j int) bool {
-		if wordsMap[i].count != wordsMap[j].count {
-			return wordsMap[i].count > wordsMap[j].count
+	sort.Slice(words, func(i, j int) bool {
+		if words[i].count != words[j].count {
+			return words[i].count > words[j].count
 		}
 
-		return wordsMap[i].value < wordsMap[j].value
+		return words[i].value < words[j].value
 	})
 
-	if len(wordsMap) < top {
-		top = len(wordsMap)
+	if len(words) < top {
+		top = len(words)
 	}
 
 	for i := 0; i < top; i++ {
-		result = append(result, wordsMap[i].value)
+		result = append(result, words[i].value)
 	}
 
 	return result
