@@ -1,4 +1,4 @@
-package main
+package hw04_lru_cache
 
 type ListItem struct {
 	Value interface{}
