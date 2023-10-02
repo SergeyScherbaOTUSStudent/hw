@@ -1,4 +1,4 @@
-package hw04_lru_cache
+package hw04lrucache
 
 import (
 	"testing"
@@ -18,7 +18,7 @@ func TestList(t *testing.T) {
 	t.Run("add first item and check general list", func(t *testing.T) {
 		l := NewList()
 
-		l.PushFront(15, "")
+		l.PushFront(15)
 
 		require.Equal(t, 1, l.Len())
 		require.Equal(t, 15, l.Back().Value)
@@ -28,11 +28,11 @@ func TestList(t *testing.T) {
 	t.Run("remove first and last items", func(t *testing.T) {
 		l := NewList()
 
-		fd0 := l.PushFront(10, "1")
-		l.PushFront(15, "2")
-		l.PushFront(20, "3")
-		l.PushFront(25, "4")
-		fd1 := l.PushFront(30, "5")
+		fd0 := l.PushFront(10)
+		l.PushFront(15)
+		l.PushFront(20)
+		l.PushFront(25)
+		fd1 := l.PushFront(30)
 
 		l.Remove(fd1)
 		l.Remove(fd0)
@@ -45,9 +45,9 @@ func TestList(t *testing.T) {
 	t.Run("complex", func(t *testing.T) {
 		l := NewList()
 
-		l.PushFront(10, "")
-		l.PushBack(20, "")
-		l.PushBack(30, "")
+		l.PushFront(10)
+		l.PushBack(20)
+		l.PushBack(30)
 		require.Equal(t, 3, l.Len())
 
 		middle := l.Front().Next
@@ -56,9 +56,9 @@ func TestList(t *testing.T) {
 
 		for i, v := range [...]int{40, 50, 60, 70, 80} {
 			if i%2 == 0 {
-				l.PushFront(v, "")
+				l.PushFront(v)
 			} else {
-				l.PushBack(v, "")
+				l.PushBack(v)
 			}
 		}
 
@@ -79,7 +79,7 @@ func TestList(t *testing.T) {
 	t.Run("move to front in empty list", func(t *testing.T) {
 		l := NewList()
 
-		l.MoveToFront(newListItem(10, ""))
+		l.MoveToFront(newListItem(10))
 
 		require.Empty(t, l.Front())
 	})
@@ -89,7 +89,7 @@ func TestList(t *testing.T) {
 
 		require.Equal(t, 0, l.Len())
 
-		l.PushBack(10, "")
+		l.PushBack(10)
 
 		require.Equal(t, 10, l.Front().Value)
 		require.Equal(t, 10, l.Back().Value)
@@ -99,9 +99,9 @@ func TestList(t *testing.T) {
 	t.Run("move to front from tail", func(t *testing.T) {
 		l := NewList()
 
-		l.PushBack(10, "")
-		l.PushBack(20, "")
-		fm := l.PushBack(30, "")
+		l.PushBack(10)
+		l.PushBack(20)
+		fm := l.PushBack(30)
 
 		l.MoveToFront(fm)
 
@@ -112,7 +112,7 @@ func TestList(t *testing.T) {
 	t.Run("remove all items", func(t *testing.T) {
 		l := NewList()
 
-		fr := l.PushFront(10, "")
+		fr := l.PushFront(10)
 		l.Remove(fr)
 
 		require.Equal(t, 0, l.Len())
@@ -123,8 +123,8 @@ func TestList(t *testing.T) {
 	t.Run("move to front", func(t *testing.T) {
 		l := NewList()
 
-		a := l.PushFront("aaa", "1")
-		b := l.PushFront("bbb", "2")
+		a := l.PushFront("aaa")
+		b := l.PushFront("bbb")
 
 		l.MoveToFront(a)
 		require.Equal(t, "aaa", l.Front().Value)

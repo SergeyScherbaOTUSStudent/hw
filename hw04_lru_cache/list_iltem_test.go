@@ -1,4 +1,4 @@
-package hw04_lru_cache
+package hw04lrucache
 
 import (
 	"github.com/stretchr/testify/require"
@@ -6,11 +6,10 @@ import (
 )
 
 func TestListItem(t *testing.T) {
-	t.Run("test", func(t *testing.T) {
-		i := newListItem("Val", "K")
+	t.Run("test ListItem constructor", func(t *testing.T) {
+		i := newListItem("Val")
 
 		require.Equal(t, "Val", i.Value)
-		require.Equal(t, Key("K"), i.Key)
 		require.Nil(t, i.Prev)
 		require.Nil(t, i.Next)
 	})

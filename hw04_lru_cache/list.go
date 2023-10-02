@@ -1,11 +1,11 @@
-package hw04_lru_cache
+package hw04lrucache
 
 type List interface {
 	Len() int
 	Front() *ListItem
 	Back() *ListItem
-	PushFront(v interface{}, key Key) *ListItem
-	PushBack(v interface{}, key Key) *ListItem
+	PushFront(v interface{}) *ListItem
+	PushBack(v interface{}) *ListItem
 	Remove(i *ListItem)
 	MoveToFront(i *ListItem)
 }
@@ -28,8 +28,8 @@ func (l *list) Back() *ListItem {
 	return l.tail
 }
 
-func (l *list) PushFront(v interface{}, key Key) *ListItem {
-	var item = newListItem(v, key)
+func (l *list) PushFront(v interface{}) *ListItem {
+	var item = newListItem(v)
 
 	if l.length != 0 {
 		item.Next = l.head
@@ -44,8 +44,8 @@ func (l *list) PushFront(v interface{}, key Key) *ListItem {
 	return item
 }
 
-func (l *list) PushBack(v interface{}, key Key) *ListItem {
-	var item = newListItem(v, key)
+func (l *list) PushBack(v interface{}) *ListItem {
+	var item = newListItem(v)
 
 	if l.length != 0 {
 		item.Prev = l.tail
@@ -88,7 +88,7 @@ func (l *list) MoveToFront(li *ListItem) {
 		return
 	}
 
-	l.PushFront(li.Value, li.Key)
+	l.PushFront(li.Value)
 	l.Remove(li)
 }
 

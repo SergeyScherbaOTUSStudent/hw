@@ -1,4 +1,4 @@
-package hw04_lru_cache
+package hw04lrucache
 
 type Key string
 
@@ -25,18 +25,18 @@ func NewCache(capacity int) Cache {
 func (c *lruCache) Set(key Key, value interface{}) bool {
 	if item, ok := c.items[key]; ok {
 		c.queue.MoveToFront(item)
-		item.Value = value
+		item.Value = NewItemBody(value, key)
 
 		return true
 	}
 
 	if c.capacity == c.queue.Len() {
 		item := c.queue.Back()
-		delete(c.items, item.Key)
+		delete(c.items, item.Value.(*ItemBody).Key)
 		c.queue.Remove(item)
 	}
 
-	item := c.queue.PushFront(value, key)
+	item := c.queue.PushFront(NewItemBody(value, key))
 	c.items[key] = item
 
 	return false
@@ -46,7 +46,7 @@ func (c *lruCache) Get(key Key) (interface{}, bool) {
 	if item, ok := c.items[key]; ok {
 		c.queue.MoveToFront(item)
 
-		return item.Value, ok
+		return item.Value.(*ItemBody).Value, ok
 	}
 
 	return nil, false

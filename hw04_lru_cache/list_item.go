@@ -1,17 +1,27 @@
-package hw04_lru_cache
+package hw04lrucache
 
 type ListItem struct {
 	Value interface{}
-	Key   Key
 	Next  *ListItem
 	Prev  *ListItem
 }
 
-func newListItem(val interface{}, key Key) *ListItem {
+type ItemBody struct {
+	Value interface{}
+	Key   Key
+}
+
+func newListItem(val interface{}) *ListItem {
 	return &ListItem{
 		Value: val,
-		Key:   key,
 		Prev:  nil,
 		Next:  nil,
+	}
+}
+
+func NewItemBody(val interface{}, key Key) *ItemBody {
+	return &ItemBody{
+		Value: val,
+		Key:   key,
 	}
 }

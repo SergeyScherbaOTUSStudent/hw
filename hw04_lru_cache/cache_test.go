@@ -1,4 +1,4 @@
-package hw04_lru_cache
+package hw04lrucache
 
 import (
 	"math/rand"
@@ -72,6 +72,16 @@ func TestCache(t *testing.T) {
 		val, ok = c.Get("ccc")
 		require.False(t, ok)
 		require.Nil(t, val)
+	})
+
+	t.Run("get", func(t *testing.T) {
+		c := NewCache(4)
+
+		c.Set("A", 300)
+		val, ok := c.Get("A")
+
+		require.Equal(t, 300, val)
+		require.True(t, ok)
 	})
 
 	t.Run("purge logic", func(t *testing.T) {
