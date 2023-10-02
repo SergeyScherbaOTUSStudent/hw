@@ -1,8 +1,9 @@
 package hw04lrucache
 
 import (
-	"github.com/stretchr/testify/require"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestListItem(t *testing.T) {

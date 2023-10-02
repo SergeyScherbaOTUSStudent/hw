@@ -29,7 +29,7 @@ func (l *list) Back() *ListItem {
 }
 
 func (l *list) PushFront(v interface{}) *ListItem {
-	var item = newListItem(v)
+	item := newListItem(v)
 
 	if l.length != 0 {
 		item.Next = l.head
@@ -45,7 +45,7 @@ func (l *list) PushFront(v interface{}) *ListItem {
 }
 
 func (l *list) PushBack(v interface{}) *ListItem {
-	var item = newListItem(v)
+	item := newListItem(v)
 
 	if l.length != 0 {
 		item.Prev = l.tail
