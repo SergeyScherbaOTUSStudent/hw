@@ -20,6 +20,31 @@ func TestCache(t *testing.T) {
 		require.False(t, ok)
 	})
 
+	t.Run("set item with same key", func(t *testing.T) {
+		c := NewCache(4)
+
+		c.Set("A", "aA")
+		c.Set("B", "bB")
+		c.Set("A", "zZzZ")
+
+		item, _ := c.Get("A")
+
+		require.Equal(t, "zZzZ", item)
+	})
+
+	t.Run("set item to full capacity Cache", func(t *testing.T) {
+		c := NewCache(3)
+
+		c.Set("A", "aA")
+		c.Set("B", "bB")
+		c.Set("C", "cC")
+		c.Set("D", "dD")
+
+		_, ok := c.Get("A")
+
+		require.False(t, ok)
+	})
+
 	t.Run("simple", func(t *testing.T) {
 		c := NewCache(5)
 
@@ -49,8 +74,24 @@ func TestCache(t *testing.T) {
 		require.Nil(t, val)
 	})
 
+	t.Run("get", func(t *testing.T) {
+		c := NewCache(4)
+
+		c.Set("A", 300)
+		val, ok := c.Get("A")
+
+		require.Equal(t, 300, val)
+		require.True(t, ok)
+	})
+
 	t.Run("purge logic", func(t *testing.T) {
-		// Write me
+		c := NewCache(4)
+
+		c.Set("A", "aA")
+		c.Set("B", "bB")
+		c.Set("A", "zZzZ")
+
+		c.Clear()
 	})
 }
 
