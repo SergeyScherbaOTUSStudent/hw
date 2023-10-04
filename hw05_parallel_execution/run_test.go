@@ -69,6 +69,6 @@ func TestRun(t *testing.T) {
 		tasks := make([]Task, 0, 5)
 		err := Run(tasks, 5, 0)
 
-		require.Truef(t, errors.Is(err, InvalidMParam), "actual err - %v", err)
+		require.Truef(t, errors.Is(err, ErrInvalidMParam), "actual err - %v", err)
 	})
 }

@@ -7,13 +7,14 @@ import (
 )
 
 var ErrErrorsLimitExceeded = errors.New("errors limit exceeded")
-var InvalidMParam = errors.New("invalid params. Give chance to mistake for app :)")
+
+var ErrInvalidMParam = errors.New("invalid params. Give chance to mistake for app :)")
 
 type Task func() error
 
 func Run(tasks []Task, n, m int) (e error) {
 	if m <= 0 {
-		return InvalidMParam
+		return ErrInvalidMParam
 	}
 
 	var count int32
