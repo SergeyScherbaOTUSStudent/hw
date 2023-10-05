@@ -118,6 +118,6 @@ func TestPipeline(t *testing.T) {
 
 	t.Run("without stages", func(t *testing.T) {
 		in := make(In)
-		require.Equal(t, ExecutePipeline(in, nil, []Stage{}...), make(In))
+		require.Equal(t, ExecutePipeline(in, nil, []Stage{}...), in)
 	})
 }
