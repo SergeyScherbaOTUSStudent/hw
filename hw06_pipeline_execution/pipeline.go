@@ -1,4 +1,4 @@
-package hw06pipelineexecution
+package main
 
 type (
 	In  = <-chan interface{}
@@ -9,6 +9,30 @@ type (
 type Stage func(in In) (out Out)
 
 func ExecutePipeline(in In, done In, stages ...Stage) Out {
-	// Place your code here.
-	return nil
+	out := in
+
+	if len(stages) == 0 {
+		return out
+	}
+
+	for _, stage := range stages {
+		stream := make(Bi)
+		go func(inStage Bi, outStage Out) {
+			defer close(stream)
+			for {
+				select {
+				case <-done:
+					return
+				case stage, ok := <-outStage:
+					if !ok {
+						return
+					}
+					inStage <- stage
+				}
+			}
+		}(stream, out)
+		out = stage(stream)
+	}
+
+	return out
 }
