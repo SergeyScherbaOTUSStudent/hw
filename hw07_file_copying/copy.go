@@ -2,9 +2,10 @@ package main
 
 import (
 	"errors"
-	"github.com/cheggaaa/pb/v3"
 	"io"
 	"os"
+
+	"github.com/cheggaaa/pb/v3"
 )
 
 var (
@@ -20,16 +21,16 @@ func Copy(fromPath, toPath string, offset, limit int64) error {
 	}
 
 	fFrom, err := os.Open(fromPath)
-	defer fFrom.Close()
 	if err != nil {
 		return ErrUnsupportedFile
 	}
+	defer fFrom.Close()
 
 	fTo, err := os.Create(toPath)
-	defer fTo.Close()
 	if err != nil {
 		return ErrUnsupportedFile
 	}
+	defer fTo.Close()
 
 	fContent, _ := fFrom.Stat()
 	if fContent.Size() < offset {
@@ -49,8 +50,8 @@ func Copy(fromPath, toPath string, offset, limit int64) error {
 	pBar := pb.StartNew(int(limit))
 
 	for i := int64(0); i < limit; i += bSize {
-		w, err := io.CopyN(fTo, fFrom, bSize)
-		if (err != nil && err != io.EOF) || w > limit {
+		w, _ := io.CopyN(fTo, fFrom, bSize)
+		if w > limit {
 			return err
 		}
 		pBar.Add(int(i))
