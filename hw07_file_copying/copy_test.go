@@ -41,12 +41,16 @@ func TestCopy(t *testing.T) {
 	}
 
 	t.Run("file does not exist", func(t *testing.T) {
-		err := Copy("testdata/input_.txt", "to", 0, 0)
+		to := path.Join("testdata", "out_tmp.txt")
+		err := Copy("testdata/input_.txt", to, 0, 0)
+		defer os.Remove(to)
 		require.ErrorIs(t, err, ErrFileDoesNotExist)
 	})
 
 	t.Run("offset exceeds file size", func(t *testing.T) {
-		err := Copy("testdata/input.txt", "to", 10000000, 0)
+		to := path.Join("testdata", "out_tmp.txt")
+		err := Copy("testdata/input.txt", to, 10000000, 0)
+		defer os.Remove(to)
 		require.ErrorIs(t, err, ErrOffsetExceedsFileSize)
 	})
 }

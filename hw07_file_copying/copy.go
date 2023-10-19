@@ -2,10 +2,9 @@ package main
 
 import (
 	"errors"
-	"os"
-	"time"
-
 	"github.com/cheggaaa/pb/v3"
+	"io"
+	"os"
 )
 
 var (
@@ -15,46 +14,48 @@ var (
 )
 
 func Copy(fromPath, toPath string, offset, limit int64) error {
-	var err error
-	err = CheckFile(fromPath)
-
+	err := CheckFile(fromPath)
 	if err != nil {
 		return err
 	}
 
-	bar := pb.StartNew(100)
-
-	finalBoard := int(limit)
-	fContent, readErr := os.ReadFile(fromPath)
-
-	if readErr != nil {
+	fFrom, err := os.Open(fromPath)
+	defer fFrom.Close()
+	if err != nil {
 		return ErrUnsupportedFile
 	}
 
-	if len(fContent) < int(offset) {
+	fTo, err := os.Create(toPath)
+	defer fTo.Close()
+	if err != nil {
+		return ErrUnsupportedFile
+	}
+
+	fContent, _ := fFrom.Stat()
+	if fContent.Size() < offset {
 		return ErrOffsetExceedsFileSize
 	}
 
-	if offset > 0 {
-		finalBoard = int(offset + limit)
+	if limit == 0 || limit+offset > fContent.Size() {
+		limit = fContent.Size()
 	}
 
-	if len(fContent) < int(offset+limit) || limit == 0 {
-		finalBoard = len(fContent)
+	bOffset, err := fFrom.Seek(offset, 0)
+	if err != nil || bOffset != offset {
+		return ErrUnsupportedFile
 	}
 
-	printPB(bar, 50)
+	bSize := int64(5)
+	pBar := pb.StartNew(int(limit))
 
-	toFile, _ := os.OpenFile(toPath, os.O_WRONLY|os.O_CREATE, 0o666)
-
-	defer func() {
-		printPB(bar, 100)
-		toFile.Close()
-	}()
-
-	_, err = toFile.Write(fContent[offset:finalBoard])
-	printPB(bar, 96)
-
+	for i := int64(0); i < limit; i += bSize {
+		w, err := io.CopyN(fTo, fFrom, bSize)
+		if (err != nil && err != io.EOF) || w > limit {
+			return err
+		}
+		pBar.Add(int(i))
+	}
+	pBar.Finish()
 	return err
 }
 
@@ -66,9 +67,4 @@ func CheckFile(path string) error {
 	}
 
 	return nil
-}
-
-func printPB(bar *pb.ProgressBar, n int) {
-	bar.Add(n)
-	time.Sleep(time.Millisecond * 10)
 }
