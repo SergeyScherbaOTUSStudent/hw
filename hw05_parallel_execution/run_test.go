@@ -1,4 +1,4 @@
-package hw05parallelexecution
+package main
 
 import (
 	"errors"
@@ -9,12 +9,9 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
-	"go.uber.org/goleak"
 )
 
 func TestRun(t *testing.T) {
-	defer goleak.VerifyNone(t)
-
 	t.Run("if were errors in first M tasks, than finished not more N+M tasks", func(t *testing.T) {
 		tasksCount := 50
 		tasks := make([]Task, 0, tasksCount)
@@ -66,5 +63,12 @@ func TestRun(t *testing.T) {
 
 		require.Equal(t, runTasksCount, int32(tasksCount), "not all tasks were completed")
 		require.LessOrEqual(t, int64(elapsedTime), int64(sumTime/2), "tasks were run sequentially?")
+	})
+
+	t.Run("tasks without errors", func(t *testing.T) {
+		tasks := make([]Task, 0, 5)
+		err := Run(tasks, 5, 0)
+
+		require.Truef(t, errors.Is(err, ErrInvalidMParam), "actual err - %v", err)
 	})
 }

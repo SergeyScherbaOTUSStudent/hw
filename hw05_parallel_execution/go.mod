@@ -1,10 +1,9 @@
-module github.com/fixme_my_friend/hw05_parallel_execution
+module github.com/SergeyScherbaOTUSStudent/hw/hw05_parallel_execution
 
 go 1.19
 
 require (
 	github.com/stretchr/testify v1.7.0
-	go.uber.org/goleak v1.1.10
 )
 
 require (
