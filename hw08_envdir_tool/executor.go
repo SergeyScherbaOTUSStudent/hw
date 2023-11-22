@@ -42,13 +42,6 @@ func RunCmd(cmd []string, env Environment) (returnCode int) {
 	if err = command.Start(); err != nil {
 		log.Println(err)
 	}
-	if err = command.Wait(); err != nil {
-		if exitError, ok := err.(*exec.ExitError); ok {
-			returnCode = exitError.ExitCode()
-		} else {
-			log.Println(err)
-		}
-	}
 
 	return returnCode
 }

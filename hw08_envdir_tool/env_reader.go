@@ -41,13 +41,12 @@ func ReadDir(dir string) (Environment, error) {
 		if err != nil {
 			return err
 		}
-		if false == info.IsDir() {
+		if !info.IsDir() {
 			cont, _ := ReadFileJustFirstLine(path)
 			env[info.Name()] = NewEnvValue(cont, true)
 		}
 		return nil
 	})
-
 	if err != nil {
 		return nil, err
 	}

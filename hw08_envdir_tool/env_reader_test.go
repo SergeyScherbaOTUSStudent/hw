@@ -29,7 +29,6 @@ func TestEnvReader(t *testing.T) {
 	}
 
 	t.Run("Test ReadFileJustFirstLine", func(t *testing.T) {
-
 		for _, testcase := range testcases {
 			t.Run(testcase.title, func(t *testing.T) {
 				from := path.Join("testdata", "env", testcase.fileName)
